@@ -42,20 +42,26 @@ class CollocationsRetriever(object):
     def __get_value(self, node):
         return node.childNodes[0].data
 
+    def __get_by_name(self, node, name):
+        return node.getElementsByTagName(name)[0]
+
     def retrieve(self, query):
         data = self.__query_for_collocations(query)
         document = minidom.parseString(data)
         nodes = document.childNodes
         value = self.__get_value
+        node = self.__get_by_name
         results = {}
-        for node in nodes[0].getElementsByTagName("collocation"):
-            lemma = value(node.getElementsByTagName("lemma")[0])
-            forms = node.getElementsByTagName("forms")
-            results[lemma] = [value(form.getElementsByTagName("f")[0]) for form in forms[0].getElementsByTagName("form")]
+        for collocation in nodes[0].getElementsByTagName("collocation"):
+            lemma = value(node(collocation, "lemma"))
+            forms = collocation.getElementsByTagName("forms")
+            results[lemma] = [(value(node(form, "f")), int(form.getAttribute("freq"))) for form in
+                              forms[0].getElementsByTagName("form")]
         return results
 
 retriever = CollocationsRetriever()
 results = retriever.retrieve("pleść** bzdura**")
 for (lemma, forms) in results.iteritems():
     print "lemma: ", lemma
-    print "forms: ", forms
+    for (form, freq) in forms:
+        print "\tform= '" + form + "', frequency=", freq
