@@ -7,7 +7,7 @@ class CollocationsRetriever(object):
         self.servlet = "http://nkjp.uni.lodz.pl/CollocationsInXML"
         self.offset = 0
         self.limit = 10000
-        self.span = 0
+        self.span = 4
         self.collocationalContextLeft = 1
         self.collocationalContextRight = 1
         self.minCoocFreq = 5
@@ -51,17 +51,18 @@ class CollocationsRetriever(object):
         nodes = document.childNodes
         value = self.__get_value
         node = self.__get_by_name
-        results = {}
+        results = []
         for collocation in nodes[0].getElementsByTagName("collocation"):
             lemma = value(node(collocation, "lemma"))
+            chi2 = value(node(collocation, "chi2"))
             forms = collocation.getElementsByTagName("forms")
-            results[lemma] = [(value(node(form, "f")), int(form.getAttribute("freq"))) for form in
-                              forms[0].getElementsByTagName("form")]
+            results.append((lemma, chi2, [(value(node(form, "f")), int(form.getAttribute("freq"))) for form in
+                              forms[0].getElementsByTagName("form")]))
         return results
 
 retriever = CollocationsRetriever()
-results = retriever.retrieve("pleść** bzdura**")
-for (lemma, forms) in results.iteritems():
-    print "lemma: ", lemma
+results = retriever.retrieve("pociąg** tor**")
+for (lemma, chi2, forms) in results:
+    print "lemma: ", lemma, ", chi2: ", chi2
     for (form, freq) in forms:
         print "\tform= '" + form + "', frequency=", freq
