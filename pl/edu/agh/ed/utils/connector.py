@@ -60,9 +60,14 @@ class CollocationsRetriever(object):
                               forms[0].getElementsByTagName("form")]))
         return results
 
-retriever = CollocationsRetriever()
-results = retriever.retrieve("pociąg** tor**")
-for (lemma, chi2, forms) in results:
-    print "lemma: ", lemma, ", chi2: ", chi2
-    for (form, freq) in forms:
-        print "\tform= '" + form + "', frequency=", freq
+def main():
+    retriever = CollocationsRetriever()
+    results = retriever.retrieve("pociąg**")
+    for (lemma, chi2, forms) in results:
+        print "lemma: ", lemma, ", chi2: ", chi2
+        for (form, freq) in forms:
+            print "\tform= '" + form + "', frequency=", freq
+
+if __name__ == "__main__":
+    main()
+
