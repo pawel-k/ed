@@ -7,9 +7,9 @@ class CollocationsRetriever(object):
         self.servlet = "http://nkjp.uni.lodz.pl/CollocationsInXML"
         self.offset = 0
         self.limit = 10000
-        self.span = 4
-        self.collocationalContextLeft = 1
-        self.collocationalContextRight = 1
+        self.span = 9
+        self.collocationalContextLeft = 2
+        self.collocationalContextRight = 2
         self.minCoocFreq = 5
         self.posOfCollocate = "any"
         self.sort = "srodek"
@@ -62,7 +62,7 @@ class CollocationsRetriever(object):
 
 def main():
     retriever = CollocationsRetriever()
-    results = retriever.retrieve("pociąg**")
+    results = retriever.retrieve("samolot** lądować** lotnisko**")
     for (lemma, chi2, forms) in results:
         print "lemma: ", lemma, ", chi2: ", chi2
         for (form, freq) in forms:
