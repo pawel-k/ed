@@ -15,6 +15,7 @@ def extract_chain_parts(input_text,stoplist):
 def get_collocations(retriever,words):
     search_string = "** ".join(words)
     search_string+="**"
+    print "Getting collocations for "+",".join(words)
     results = retriever.retrieve(search_string)
     return {lemma:chi2 for (lemma, chi2, _forms) in results}
 
@@ -69,9 +70,9 @@ def get_lexical_chains(chain_parts, retriever):
 
 
 def main():
-    input_text = "auto fiat osobowy terenowy samolot lądować lotnisko"
-    #input_text = "samolot lądować lotnisko"
-    print input_text
+    #input_text = "osobowy auto fiat terenowy lotnisko lądować samolot"
+    input_text = "Artur Zawisza, jeden z liderów narodowców zdradza, że Ruch to nie tylko grupa młodych entuzjastów i idealistów, bo ma wsparcie w wyższych sferach. - Stoją za nami różne środowiska. Prawnicy, biznesmeni, ludzie mediów, także tych mainstremowych - wylicza. Mówi także, że ponad tysiąc osób udzieliło im darowizn, a kilka z nich było bardzo znaczących, nawet rzędu kilkudziesięciu tysięcy złotych. - Bogaci ludzie, którzy nas wspierają nie chcą ujawniać swoich nazwisk, bo poglądy narodowe wciąż są w Polsce niepopularne i grożą ostracyzmem, więc boją się konsekwencji w swoich środowiskach - tłumaczy."
+    #print input_text
     stoplist = read_stoplist("pl.txt")
     chain_parts = extract_chain_parts(input_text,stoplist)
     retriever = CollocationsRetriever()

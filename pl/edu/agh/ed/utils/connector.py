@@ -62,7 +62,7 @@ class CollocationsRetriever(object):
 
 def main():
     retriever = CollocationsRetriever()
-    results = retriever.retrieve("samolot** lądować** lotnisko**")
+    results = retriever.retrieve("spożycie**")
     for (lemma, chi2, forms) in results:
         print "lemma: ", lemma, ", chi2: ", chi2
         for (form, freq) in forms:
